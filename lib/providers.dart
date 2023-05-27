@@ -23,8 +23,8 @@ class WeatherProviders {
 
   Future<void> init() async {
     await _initLocation();
-    await _getForecastProvider();
-    await _getDetailsWeatherProvider();
+    _getForecastProvider();
+    _getDetailsWeatherProvider();
   }
 
   Future<void> _initLocation() async {
@@ -32,7 +32,7 @@ class WeatherProviders {
     _location = await location.getLocation();
   }
 
-  Future<void> _getForecastProvider() async {
+  void _getForecastProvider() {
     final location = _location;
     if (location != null) {
       _forecastProvider = FutureProvider<GeneralWeatherEntity?>((ref) {
@@ -49,7 +49,7 @@ class WeatherProviders {
     }
   }
 
-  Future<void> _getDetailsWeatherProvider() async {
+  void _getDetailsWeatherProvider() {
     final location = _location;
     if (location != null) {
       _detailsWeatherProvider = FutureProvider<DetailsWeatherEntity?>((ref) {

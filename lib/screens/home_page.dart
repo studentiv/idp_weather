@@ -38,14 +38,11 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           } else if (snapshot.hasError) {
-            return const Text('Error');
+            return const Center(child: Text('Error'));
           } else {
             return MyProviders(
               providers: providers,
-              child: IndexedStack(
-                index: _currentIndex,
-                children: _tabs,
-              ),
+              child: IndexedStack(index: _currentIndex, children: _tabs),
             );
           }
         },

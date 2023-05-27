@@ -18,7 +18,7 @@ class DetailsForecastTab extends ConsumerWidget {
 
       return weather.when(
         data: (data) => data != null
-            ? ListView(children: data.perDay.map(_Item.new).toList())
+            ? ListView(children: data.perDay.map(_DayItem.new).toList())
             : const Center(child: Text('Failed to get info')),
         error: (_, __) => const Center(
           child: Text('Failed to get weather info'),
@@ -37,10 +37,10 @@ class DetailsForecastTab extends ConsumerWidget {
   }
 }
 
-class _Item extends StatelessWidget {
+class _DayItem extends StatelessWidget {
   final WeatherPerDay day;
 
-  const _Item(this.day);
+  const _DayItem(this.day);
 
   @override
   Widget build(BuildContext context) {
@@ -58,21 +58,29 @@ class _Item extends StatelessWidget {
             style: const TextStyle(fontSize: 32),
           ),
         ),
-        ...day.details.map(
-          (e) {
-            final time = DateTime.fromMillisecondsSinceEpoch(
-              e.time * 1000,
-              isUtc: true,
-            ).toLocal();
-            final formattedTime = DateFormat('hh:mm').format(time);
-            return ListTile(
-              title: Text('Temp: ${e.temp}'),
-              subtitle: Text(e.description),
-              trailing: Text(formattedTime),
-            );
-          },
-        ).toList(),
+        ...day.details.map(_HourItem.new).toList(),
       ],
+    );
+  }
+}
+
+class _HourItem extends StatelessWidget {
+  final WeatherPerHour hour;
+
+  const _HourItem(this.hour);
+
+  @override
+  Widget build(BuildContext context) {
+    final time = DateTime.fromMillisecondsSinceEpoch(
+      hour.time * 1000,
+      isUtc: true,
+    ).toLocal();
+    final formattedTime = DateFormat('hh:mm').format(time);
+
+    return ListTile(
+      title: Text('Temp: ${hour.temp}'),
+      subtitle: Text(hour.description),
+      trailing: Text(formattedTime),
     );
   }
 }
