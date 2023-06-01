@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:idp_weather/domain/repository.dart';
 import 'package:idp_weather/domain/weather_entity.dart';
-import 'package:idp_weather/key.dart';
+import 'package:idp_weather/.key.dart';
 
 import 'models/details_weather_model.dart';
 import 'models/general_weather_model.dart';
