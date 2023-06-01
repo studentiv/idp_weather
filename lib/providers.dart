@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location/location.dart';
 
@@ -11,7 +12,7 @@ class WeatherProviders {
   FutureProvider<DetailsWeatherEntity?>? _detailsWeatherProvider;
   LocationData? _location;
 
-  WeatherProviders() : _repository = WeatherRepositoryImpl() {
+  WeatherProviders() : _repository = WeatherRepositoryImpl(Dio()) {
     init();
   }
 
@@ -37,12 +38,10 @@ class WeatherProviders {
     if (location != null) {
       _forecastProvider = FutureProvider<GeneralWeatherEntity?>((ref) {
         if (location.latitude != null && location.longitude != null) {
-          return _repository
-              .getGeneralWeather(
-                location.latitude!,
-                location.longitude!,
-              )
-              .then((value) => value);
+          return _repository.getGeneralWeather(
+            location.latitude!,
+            location.longitude!,
+          );
         }
         return null;
       });
@@ -54,9 +53,9 @@ class WeatherProviders {
     if (location != null) {
       _detailsWeatherProvider = FutureProvider<DetailsWeatherEntity?>((ref) {
         if (location.latitude != null && location.longitude != null) {
-          return _repository
-              .getDetailsWeather('${location.latitude!} ${location.longitude!}')
-              .then((value) => value);
+          return _repository.getDetailsWeather(
+            '${location.latitude!} ${location.longitude!}',
+          );
         }
         return null;
       });

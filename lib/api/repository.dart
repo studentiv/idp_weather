@@ -7,15 +7,16 @@ import 'models/details_weather_model.dart';
 import 'models/general_weather_model.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {
-  WeatherRepositoryImpl();
+  final Dio dio;
+
+  WeatherRepositoryImpl(this.dio);
 
   @override
   Future<GeneralWeatherEntity> getGeneralWeather(double lat, double lon) async {
-    const baseUrl = 'http://api.weatherbit.io/v2.0';
+    const url = 'http://api.weatherbit.io/v2.0/forecast/daily';
     const daysNumber = 10;
     try {
-      final dio = Dio(BaseOptions(baseUrl: baseUrl));
-      final response = await dio.get('/forecast/daily', queryParameters: {
+      final response = await dio.get(url, queryParameters: {
         'lat': lat,
         'lon': lon,
         'days': daysNumber,
@@ -35,11 +36,10 @@ class WeatherRepositoryImpl implements WeatherRepository {
 
   @override
   Future<DetailsWeatherEntity> getDetailsWeather(String location) async {
-    const baseUrl = 'https://api.weatherapi.com/v1';
+    const url = 'https://api.weatherapi.com/v1/forecast.json';
     const daysNumber = 2;
     try {
-      final dio = Dio(BaseOptions(baseUrl: baseUrl));
-      final response = await dio.get('/forecast.json', queryParameters: {
+      final response = await dio.get(url, queryParameters: {
         'key': detailsApiKey,
         'q': location,
         'days': daysNumber,

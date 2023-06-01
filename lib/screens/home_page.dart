@@ -12,11 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const List<Widget> _tabs = [
-    DetailsForecastTab(),
-    ForecastTab(),
-  ];
-  var _currentIndex = 0;
+  final pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +38,13 @@ class _HomePageState extends State<HomePage> {
           } else {
             return MyProviders(
               providers: providers,
-              child: IndexedStack(index: _currentIndex, children: _tabs),
+              child: PageView(
+                controller: pageController,
+                children: const [DetailsForecastTab(), ForecastTab()],
+              ), // IndexedStack(index: _currentIndex, children: _tabs),
             );
           }
         },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.sunny), label: 'Details'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.auto_graph),
-            label: 'Forecast',
-          ),
-        ],
-        currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
       ),
     );
   }
