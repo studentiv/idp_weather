@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               child: PageView(
                 controller: pageController,
                 children: const [DetailsForecastTab(), ForecastTab()],
-              ), // IndexedStack(index: _currentIndex, children: _tabs),
+              ),
             );
           }
         },
